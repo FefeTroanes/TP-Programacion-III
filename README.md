@@ -1,5 +1,5 @@
 # TP-Programacion-III
-### Instrucciones para la primera parte
+### Instrucciones para la primera parte (hay que ajustarlo)
 1. Abrir la carpeta `tp-pathfinding` con VSCode
 2. Instalar con la terminal (si no lo tenes) el paquete para entornos virtuales `pip install virtualenv`
 3. Crear un entorno virtual con `python -m venv ./.venv`
