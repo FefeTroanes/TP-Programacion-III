@@ -15,13 +15,35 @@ class GreedyBestFirstSearch:
         Returns:
             Solution: Solution found
         """
-        # Initialize a node with the initial position
+        # Inicializando el nodo con la posicion inicial
         node = Node("", grid.start, 0)
 
-        # Initialize the explored dictionary to be empty
-        explored = {} 
-        
-        # Add the node to the explored dictionary
-        explored[node.state] = True
-        
+        #Inicializando un diccionario para los explorados
+        explored = {}
+
+        #Añadiendo el estado a los explorados con el costo
+        explored[node.state] = node.cost
+
+        #Creando la frontera con la clase "Cola Prioridad"
+        #,añadiendo el nodo
+        frontera = PriorityQueueFrontier()
+        frontera.add(node)
+
+        #frontera.add(node,h(node))
+        #Si no le ponemos la heuristica es casi identico a ucs y astar
+        while not frontera.is_empty():
+            nodo = frontera.pop()
+            if grid.end==nodo.state:
+                return Solution(nodo,explored)
+
+            for accion,estado in grid.get_neighbours(nodo.state).items():
+
+                costo = nodo.cost + grid.get_cost(nodo.state)
+                if estado not in explored or costo < explored[estado]:
+                    nodo_actual = Node("",estado,costo,nodo,accion)
+                    explored[estado] = costo
+                    frontera.add(nodo_actual)
+                    #frontera.add(nodo_actual,h(nodo_actual))
         return NoSolution(explored)
+
+#SOLO FALTA VER LO DE LA HEURISTICA
