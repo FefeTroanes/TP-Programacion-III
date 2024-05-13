@@ -47,8 +47,6 @@ class BreadthFirstSearch:
             for action, neighbour_state in successors:
                 if neighbour_state not in explored:
                     # Create a new neighbour
-                    # new_neighbour = Node("", neighbour_state, sum(current_node.cost, grid.get_cost(neighbour_state)), current_node, action)
-
                     neighbour_node = Node("", neighbour_state , current_node.cost + grid.get_cost(neighbour_state), parent=current_node, action=action)
                     frontier.add(neighbour_node)
                     explored[neighbour_state] = True
