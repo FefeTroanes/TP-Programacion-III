@@ -81,3 +81,7 @@ class Grid:
 
     def __repr__(self) -> str:
         return f"Grid([[...], ...], {self.start}, {self.end})"
+
+    def heuristica(self, estado, grid):
+        # Calcula la distancia Manhattan entre el estado actual y el objetivo
+        return abs(estado[0] - grid.end[0]) + abs(estado[1] - grid.end[1])
