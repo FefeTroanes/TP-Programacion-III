@@ -108,10 +108,7 @@ class HillClimbingReset(LocalSearch):
         actual = problem.init
         value = problem.obj_val(problem.init)
 
-        repeticiones = 5
-
         for i in range(repeticiones):
-            print(f'Repeticiones: {i}')
             while True:
                 # Determinar las acciones que se pueden aplicar
                 # y las diferencias en valor objetivo que resultan
