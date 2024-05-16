@@ -189,7 +189,7 @@ class TSP(OptProblem):
 
     def random_reset(self) -> list[int]:
         """Devuelve un estado del TSP con un tour aleatorio.
-        
+
         Retorno:
         =======
         state: list[int]

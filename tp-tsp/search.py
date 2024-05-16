@@ -56,12 +56,11 @@ class HillClimbing(LocalSearch):
         # Inicio del reloj
         start = time()
 
-        # Arrancamos del estado inicial
+        # Arrancamos del estado inicial y su correspondiente valor objetivo
         actual = problem.init
         value = problem.obj_val(problem.init)
 
         while True:
-
             # Determinar las acciones que se pueden aplicar
             # y las diferencias en valor objetivo que resultan
             diff = problem.val_diff(actual)
@@ -73,7 +72,7 @@ class HillClimbing(LocalSearch):
             # Elegir una accion aleatoria
             act = choice(max_acts)
 
-            # Retornar si estamos en un optimo local 
+            # Retornar si estamos en un optimo local
             # (diferencia de valor objetivo no positiva)
             if diff[act] <= 0:
 
@@ -94,7 +93,56 @@ class HillClimbing(LocalSearch):
 class HillClimbingReset(LocalSearch):
     """Algoritmo de ascension de colinas con reinicio aleatorio."""
 
-    # COMPLETAR
+    def solve(self, problem: OptProblem):
+        """Resuelve un problema de optimizacion con ascension de colinas.
+
+        Argumentos:
+        ==========
+        problem: OptProblem
+            un problema de optimizacion
+        """
+        # Inicio del reloj
+        start = time()
+
+        # Arrancamos del estado inicial y su correspondiente valor objetivo
+        actual = problem.init
+        value = problem.obj_val(problem.init)
+
+        repeticiones = 5
+
+        for i in range(repeticiones):
+            print(f'Repeticiones: {i}')
+            while True:
+                # Determinar las acciones que se pueden aplicar
+                # y las diferencias en valor objetivo que resultan
+                diff = problem.val_diff(actual)
+
+                # Buscar las acciones que generan el mayor incremento de valor obj
+                max_acts = [act for act, val in diff.items() if val ==
+                            max(diff.values())]
+
+                # Elegir una accion aleatoria
+                act = choice(max_acts)
+
+                # Retornar si estamos en un optimo local
+                # (diferencia de valor objetivo no positiva)
+                if diff[act] <= 0:
+
+                    self.tour = actual
+                    self.value = value
+                    end = time()
+                    self.time = end-start
+                    break
+
+                # Sino, nos movemos al sucesor
+                else:
+
+                    actual = problem.result(actual, act)
+                    value = value + diff[act]
+                    self.niters += 1
+            # Reinicio aleatorio
+            actual = problem.random_reset()
+        return
 
 
 class Tabu(LocalSearch):
