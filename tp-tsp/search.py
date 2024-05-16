@@ -106,11 +106,11 @@ class HillClimbingReset(LocalSearch):
 
         # Arrancamos del estado inicial y su correspondiente valor objetivo
         actual = problem.init
-        value = problem.obj_val(problem.init)
 
-        repeticiones = 5
+        repeticiones = 500
 
         for i in range(repeticiones):
+            value = problem.obj_val(actual)
             while True:
                 # Determinar las acciones que se pueden aplicar
                 # y las diferencias en valor objetivo que resultan
@@ -126,7 +126,6 @@ class HillClimbingReset(LocalSearch):
                 # Retornar si estamos en un optimo local
                 # (diferencia de valor objetivo no positiva)
                 if diff[act] <= 0:
-
                     self.tour = actual
                     self.value = value
                     end = time()
@@ -135,14 +134,11 @@ class HillClimbingReset(LocalSearch):
 
                 # Sino, nos movemos al sucesor
                 else:
-
                     actual = problem.result(actual, act)
                     value = value + diff[act]
                     self.niters += 1
             # Reinicio aleatorio
             actual = problem.random_reset()
-        return
-
 
 class Tabu(LocalSearch):
     """Algoritmo de busqueda tabu."""
