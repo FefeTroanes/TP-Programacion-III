@@ -108,6 +108,8 @@ class HillClimbingReset(LocalSearch):
         actual = problem.init
         value = problem.obj_val(problem.init)
 
+        repeticiones = 5
+
         for i in range(repeticiones):
             while True:
                 # Determinar las acciones que se pueden aplicar
