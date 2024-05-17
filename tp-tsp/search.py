@@ -104,41 +104,33 @@ class HillClimbingReset(LocalSearch):
         # Inicio del reloj
         start = time()
 
-        # Arrancamos del estado inicial y su correspondiente valor objetivo
-        actual = problem.init
+        # Crear una instancia de HillClimbing
+        hill_climbing = HillClimbing()
 
         repeticiones = 500
 
+        mejor_tour = None
+        mejor_valor = float('-inf')
+
         for i in range(repeticiones):
-            value = problem.obj_val(actual)
-            while True:
-                # Determinar las acciones que se pueden aplicar
-                # y las diferencias en valor objetivo que resultan
-                diff = problem.val_diff(actual)
+            print(f'Repeticion {i}')
+            # Establecer el estado inicial a un tour aleatorio
+            problem.init = problem.random_reset()
 
-                # Buscar las acciones que generan el mayor incremento de valor obj
-                max_acts = [act for act, val in diff.items() if val ==
-                            max(diff.values())]
+            # Ejecutar HillClimbing
+            hill_climbing.solve(problem)
 
-                # Elegir una accion aleatoria
-                act = choice(max_acts)
+            # Comparar con el mejor resultado obtenido hasta ahora
+            if hill_climbing.value > mejor_valor:
+                mejor_tour = hill_climbing.tour
+                mejor_valor = hill_climbing.value
 
-                # Retornar si estamos en un optimo local
-                # (diferencia de valor objetivo no positiva)
-                if diff[act] <= 0:
-                    self.tour = actual
-                    self.value = value
-                    end = time()
-                    self.time = end-start
-                    break
-
-                # Sino, nos movemos al sucesor
-                else:
-                    actual = problem.result(actual, act)
-                    value = value + diff[act]
-                    self.niters += 1
-            # Reinicio aleatorio
-            actual = problem.random_reset()
+        # Guardar los mejores resultados encontrados
+        self.tour = mejor_tour
+        self.value = mejor_valor
+        end = time()
+        self.time = end - start
+        self.niters = hill_climbing.niters
 
 class Tabu(LocalSearch):
     """Algoritmo de busqueda tabu."""
